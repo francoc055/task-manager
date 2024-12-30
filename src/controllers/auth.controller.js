@@ -36,11 +36,11 @@ export const login = async (req, res) => {
     try {
         const userFound = await User.findOne({email});
         
-        if(!userFound) return res.status(400).json({messgae: "Usuario no encontrado"});
+        if(!userFound) return res.status(400).json({message: "Usuario no encontrado"});
 
         const isMatch = await bcrypt.compare(password, userFound.password);
 
-        if(!isMatch) return res.status(400).json({messgae: "Credencialas invalidas"});
+        if(!isMatch) return res.status(400).json({message: "Credencialas invalidas"});
 
         const token = await createAccessToken({id: userFound._id});
 
@@ -63,16 +63,4 @@ export const logout = async (req, res) => {
     })
 
     res.sendStatus(200);
-};
-
-export const profile = async (req, res) => {
-    const userFound = await User.findById(req.user.id);
-    if(!userFound) return res.status(400).json({messgae: "Usuario no encontrado"});
-
-    return res.json({
-        id: userFound._id,
-        email: userFound.email,
-        createdAt: userFound.createdAt,
-        updatedAt: userFound.updatedAt,
-    });
 };
