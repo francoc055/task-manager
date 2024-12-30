@@ -6,12 +6,16 @@ import { useNavigate } from 'react-router';
 function RegisterPage() {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const onSubmit = async (values) => {
-        const res = await registerRequest(values)
-        console.log(res);
-    };
-
     const navigate = useNavigate();
+
+    const onSubmit = async (values) => {
+        try {
+            await registerRequest(values)
+            navigate('/tasks');
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleLoginRedirect = () => {
         navigate('/login');
